@@ -39,6 +39,8 @@ async fn main() {
     write_mdfiles_to_dist(&data).expect("Failed to write MD files");
 
     setup_target_repo_commit_and_push(&repo, &args).expect("Failed to commit to repo");
+
+    println!("Done uploading files");
 }
 
 fn setup_target_repo_commit_and_push(repo: &Repository, args: &Args) -> Result<(), git2::Error> {

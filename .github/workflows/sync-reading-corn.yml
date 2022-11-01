@@ -14,12 +14,8 @@ jobs:
   get_bin_from_release_and_exec:
     runs-on: ubuntu-latest
     steps:
-      - env:
-            GH_TOKEN_ENV: ${{ secrets.GIT_TOKEN }}
-            NOTION_TOKEN_ENV: ${{ secrets.NOTION_TOKEN }}
-            NOTION_ID_ENV: ${{ secrets.NOTION_ID }}
-        run: |
+      - run: |
           wget https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.2/reading-syncer-linux-amd64
           chmod +x ./reading-syncer-linux-amd64
-          ./reading-syncer-linux-amd64 notion_token=$NOTION_TOKEN_ENV notion_database_id=$NOTION_ID_ENV gh_token=$GIT_TOKEN_ENV
+          ./reading-syncer-linux-amd64 ${{secrets.GIT_TOKEN}} ${{secrets.NOTION_TOKEN}} ${{secrets.NOTION_DB_ID}} 
 

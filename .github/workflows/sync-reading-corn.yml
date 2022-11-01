@@ -18,5 +18,4 @@ jobs:
           curl https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.2/reading-syncer-linux-amd64 -o ./reading-syncer-linux-amd64
           chmod +x ./reading-syncer-linux-amd64
           ls
-          exec ./reading-syncer-linux-amd64 gh_token=${{secrets.GIT_TOKEN}} notion_token=${{secrets.NOTION_TOKEN}} notion_database_id=${{secrets.NOTION_DB_ID}}
 

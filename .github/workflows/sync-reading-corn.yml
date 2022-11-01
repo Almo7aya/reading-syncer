@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: suisei-cn/actions-download-file@v1.0.1
         with:
-          name: https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.1/reading-syncer-linux-amd64
-          path: ./
+          url: https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.1/reading-syncer-linux-amd64
+          target: ./
 
   exec:
     runs-on: ubuntu-latest

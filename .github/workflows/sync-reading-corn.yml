@@ -1,4 +1,4 @@
-name: Sync reading to almo7aya.dev
+name: Sync readings to almo7aya.dev
 
 on:
   push:
@@ -11,21 +11,11 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  build:
+  get_bin_from_release_and_exec:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: suisei-cn/actions-download-file@v1.0.1
-        with:
-          url: https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.1/reading-syncer-linux-amd64
-          target: ./bin
-
-  exec:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - run: | 
-          chmod +x ./bin/reading-syncer-linux-amd64
-          ./bin/reading-syncer-linux-amd64 gh_token=${{secrets.GIT_TOKEN}} notion_token=${{secrets.NOTION_TOKEN}} notion_database_id=${{secrets.NOTION_DB_ID}}
-
+      - run: |
+          curl https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.1/reading-syncer-linux-amd64 -o ./reading-syncer-linux-amd64
+          chmod +x ./reading-syncer-linux-amd64
+          ./reading-syncer-linux-amd64 gh_token=${{secrets.GIT_TOKEN}} notion_token=${{secrets.NOTION_TOKEN}} notion_database_id=${{secrets.NOTION_DB_ID}}
 

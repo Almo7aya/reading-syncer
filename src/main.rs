@@ -19,6 +19,7 @@ struct ReadingListItem {
     url: String,
     title: String,
     date: String,
+    description: String,
 }
 
 #[derive(Debug)]
@@ -114,10 +115,11 @@ title: \"{}\"
 date: {}
 draft: false
 affiliatelink: {}
+description: \"{}\"
 ---
 {}
 ",
-            item.title, item.date, item.url, item.url
+            item.title, item.date, item.url, item.description, item.url
         );
         file.write_all(content.as_bytes())?;
     }
@@ -132,6 +134,16 @@ fn get_formatted_data_from_database(database: &serde_json::Value) -> Option<Read
     for record in database.get("results")?.as_array()? {
         let props = record.get("properties")?;
 
+        let mut description: String = "".into();
+        if let Some(in_description) = props
+            .get("Description")?
+            .get("rich_text")?
+            .as_array()?
+            .get(0)
+        {
+            description = in_description.get("plain_text")?.as_str()?.into();
+        }
+
         let item = ReadingListItem {
             url: props.get("URL")?.get("url")?.as_str()?.into(),
             title: props
@@ -144,6 +156,7 @@ fn get_formatted_data_from_database(database: &serde_json::Value) -> Option<Read
                 .replace("/", "-")
                 .into(),
             date: record.get("created_time")?.as_str()?.into(),
+            description,
         };
 
         reading_list.0.push(item);

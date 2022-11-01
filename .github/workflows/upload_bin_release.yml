@@ -15,10 +15,6 @@ jobs:
           - os: ubuntu-latest
             artifact_name: reading-syncer
             asset_name: reading-syncer-linux-amd64
-          - os: ghcr.io/cirruslabs/macos-ventura-xcode:latest
-            artifact_name: reading-syncer
-            asset_name: reading-syncer-macos-arm64
-
 
     steps:
     - uses: actions/checkout@v2

@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          wget https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.2/reading-syncer-linux-amd64
+          wget https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.3/reading-syncer-linux-amd64
           chmod +x ./reading-syncer-linux-amd64
           ./reading-syncer-linux-amd64 ${{secrets.GIT_TOKEN}} ${{secrets.NOTION_TOKEN}} ${{secrets.NOTION_DB_ID}} 
 

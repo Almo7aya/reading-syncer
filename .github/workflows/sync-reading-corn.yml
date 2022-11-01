@@ -11,14 +11,15 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  download_and_exec_bin:
-    name: download_and_exec_bin
+  build:
     runs-on: ubuntu-latest
     needs: upload_file
+
     steps:
       - uses: actions/download-artifact@v1
         with:
           name: https://github.com/Almo7aya/reading-syncer/releases/download/v0.0.1/reading-syncer-linux-amd64
-      - run: | 
-          chmod +x ./reading-syncer-linux-amd64 
-          ./reading-syncer-linux-amd64 gh_token=${{secrets.GIT_TOKEN}} notion_token=${{secrets.NOTION_TOKEN}} notion_database_id=${{secrets.NOTION_DB_ID}}
+          run: | 
+            chmod +x ./reading-syncer-linux-amd64
+            ./reading-syncer-linux-amd64 gh_token=${{secrets.GIT_TOKEN}} notion_token=${{secrets.NOTION_TOKEN}} notion_database_id=${{secrets.NOTION_DB_ID}}
+

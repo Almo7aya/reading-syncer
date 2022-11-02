@@ -91,11 +91,10 @@ fn clone_target_repo_from_gh() -> Option<Repository> {
     let repo = match Repository::discover(CLONED_REPO_PATH) {
         Ok(repo) => repo,
         Err(_) => {
-            let repo = match Repository::clone(TARGET_REPO_URL, CLONED_REPO_PATH) {
+             match Repository::clone(TARGET_REPO_URL, CLONED_REPO_PATH) {
                 Ok(repo) => repo,
                 Err(e) => panic!("failed to open: {}", e),
-            };
-            repo
+            }
         }
     };
 
@@ -107,7 +106,7 @@ fn write_mdfiles_to_dist(list: &ReadingList) -> Result<(), std::io::Error> {
 
     for item in list.0.iter() {
         let mut file = File::create(format!("{}{}.{}", DIST_PATH, item.title, "md"))
-            .expect(format!("Failed to open file {}{}.md", DIST_PATH, item.title).as_str());
+            .unwrap_or_else(|_| panic!("Failed to open file {}{}.md", DIST_PATH, item.title));
         let content = format!(
             "\
 ---
@@ -153,8 +152,7 @@ fn get_formatted_data_from_database(database: &serde_json::Value) -> Option<Read
                 .get(0)?
                 .get("plain_text")?
                 .as_str()?
-                .replace("/", "-")
-                .into(),
+                .replace('/', "-"),
             date: record.get("created_time")?.as_str()?.into(),
             description,
         };
@@ -192,10 +190,10 @@ fn parse_args() -> Args {
     .parse_or_exit();
 
     Args {
-        gh_token: args.gh_token.unwrap_or("gh_token".to_owned()),
-        notion_token: args.notion_token.unwrap_or("notion_token".to_owned()),
+        gh_token: args.gh_token.unwrap_or_else(|| "gh_token".to_owned()),
+        notion_token: args.notion_token.unwrap_or_else(|| "notion_token".to_owned()),
         notion_database_id: args
             .notion_database_id
-            .unwrap_or("notion_database_id".to_owned()),
+            .unwrap_or_else(|| "notion_database_id".to_owned()),
     }
 }
